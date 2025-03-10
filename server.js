@@ -6,8 +6,22 @@ const cors = require("cors");
 
 
 const app = express();
+const allowedOrigins =[
+    "https://ecom-frontend-murex-ten.vercel.app/",
+    "ecom-frontend-9g7oape92-mohammed-gouses-projects.vercel.app"
+]
 app.use(express.json());
-app.use(cors())
+app.use(cors({
+    origin: function (origin, callback) {
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
+    credentials: true, // Allows cookies and authentication headers if needed
+  })
+)
 
 connectDB();
 
